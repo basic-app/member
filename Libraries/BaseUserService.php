@@ -10,8 +10,9 @@ use BasicApp\Helpers\Url;
 use BasicApp\User\Models\UserModel;
 use BasicApp\Member\UserInterface;
 use Exception;
+use BasicApp\Auth\AuthService;
 
-abstract class BaseUserService extends \Denis303\Auth\UserService implements \BasicApp\Member\UserServiceInterface
+abstract class BaseUserService extends AuthService
 {
 
     protected $_user;
@@ -44,7 +45,7 @@ abstract class BaseUserService extends \Denis303\Auth\UserService implements \Ba
     {
         if (!$this->_user)
         {
-            $userId = $this->getUserId();
+            $userId = $this->getId();
 
             if ($userId)
             {
@@ -54,7 +55,7 @@ abstract class BaseUserService extends \Denis303\Auth\UserService implements \Ba
 
                 if (!$this->_user)
                 {
-                    $this->unsetUserId();
+                    $this->unsetId();
                 }                
             }
         }
@@ -76,7 +77,7 @@ abstract class BaseUserService extends \Denis303\Auth\UserService implements \Ba
 
     public function logout() : void
     {
-        $this->unsetUserId();
+        $this->unsetId();
     }
 
     // ToDo: move to member module

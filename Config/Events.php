@@ -8,16 +8,16 @@ use BasicApp\System\SystemEvents;
 use BasicApp\Member\Filters\MemberFilter;
 use BasicApp\Site\SiteEvents;
 use BasicApp\Member\MemberEvents;
+use CodeIgniter\Events\Events;
 
-if (class_exists(SystemEvents::class))
+Events::on('pre_system', function()
 {
-    SystemEvents::onFilters(function($event)
-    {
-        $event->aliases['memberIsLoggedIn'] = MemberFilter::class;
+    $config = config(\Config\Filters::class);
 
-        $event->filters['memberIsLoggedIn'] = ['before' => ['/member/', '/member/*']];
-    });
-}
+    $config->aliases['memberIsLoggedIn'] = MemberFilter::class;
+
+    $config->filters['memberIsLoggedIn'] = ['before' => ['/member/', '/member/*']];
+});
 
 if (class_exists(SiteEvents::class))
 {
