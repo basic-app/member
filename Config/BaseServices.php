@@ -1,8 +1,7 @@
 <?php
 /**
- * @author Basic App Dev Team <dev@basic-app.com>
+ * @author Basic App Dev Team
  * @license MIT
- * @link http://basic-app.com
  */
 namespace BasicApp\Member\Config;
 
@@ -12,11 +11,11 @@ use BasicApp\Member\Libraries\UserService;
 abstract class BaseServices extends \CodeIgniter\Config\BaseService
 {
 
-    public static function user($getShared = true)
+    public static function auth($getShared = true)
     {
         if (!$getShared)
         {
-            return new UserService('user_id');
+            return new UserService();
         }
 
         return static::getSharedInstance(__FUNCTION__);

@@ -6,7 +6,6 @@
  */
 namespace BasicApp\Member\Libraries;
 
-use BasicApp\Helpers\Url;
 use BasicApp\User\Models\UserModel;
 use BasicApp\Member\UserInterface;
 use Exception;
@@ -15,37 +14,34 @@ use BasicApp\Auth\AuthService;
 abstract class BaseUserService extends AuthService
 {
 
+    public $loginUrl = 'user/login';
+
+    public $logoutUrl = 'user/logout';
+
+    public $dashboardUrl = 'user';
+
     protected $_user;
 
-    public function can(string $permission) : bool
+    public function getLoginUrl()
     {
-        $user = $this->getUser();
-
-        if (!$user)
-        {
-            return false;
-        }
-
-        return true; // not implemented
+        return site_url($this->loginUrl);
     }
 
-    public function hasRole(string $role) : bool
+    public function getLogoutUrl()
     {
-        $user = $this->getUser();
+        return site_url($this->logoutUrl);
+    }
 
-        if (!$user)
-        {
-            return false;
-        }
-
-        return true; // not implemented
+    public function getDashboardUrl()
+    {
+        return site_url($this->dashboardUrl);
     }
 
     public function getUser() : ?UserInterface
     {
         if (!$this->_user)
         {
-            $userId = $this->getId();
+            $userId = $this->user_id();
 
             if ($userId)
             {
@@ -55,43 +51,12 @@ abstract class BaseUserService extends AuthService
 
                 if (!$this->_user)
                 {
-                    $this->unsetId();
+                    $this->logout();
                 }                
             }
         }
 
         return $this->_user;
-    }
-
-    public function login(UserInterface $user, bool $rememberMe = true)
-    {
-        $id = $user->getPrimaryKey();
-
-        if (!$id)
-        {
-            throw new Exception('Primary key not defined.');
-        }
-
-        $this->setUserId($id, $rememberMe);
-    }
-
-    public function logout() : void
-    {
-        $this->unsetId();
-    }
-
-    // ToDo: move to member module
-
-    public function getLoginUrl() : string
-    {
-        return Url::createUrl('user/login');
-    }
-
-    // ToDo: move to member module
-
-    public function getLogoutUrl() : string
-    {
-        return Url::createUrl('user/logout');
     }
 
 }

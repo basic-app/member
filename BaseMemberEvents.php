@@ -53,7 +53,7 @@ abstract class BaseMemberEvents extends \CodeIgniter\Events\Events
 
         $event->items = $items;
 
-        $user = service('user');
+        $user = service('auth');
 
         if ($user->getUser())
         {

@@ -11,6 +11,6 @@ use Exception;
 abstract class BaseMemberFilter extends \BasicApp\Filters\AuthFilter
 {
 
-    public $userService = 'user';
+    public $userService = 'auth';
     
 }

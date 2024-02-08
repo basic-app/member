@@ -11,7 +11,7 @@ use BasicApp\Exceptions\ForbiddenException;
 abstract class BaseMemberController extends \BasicApp\Site\SiteController
 {
 
-    protected $userService = 'user';
+    protected $userService = 'auth';
 
     protected $user;
 
